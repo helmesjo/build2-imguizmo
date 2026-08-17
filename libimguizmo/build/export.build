@@ -1,0 +1,6 @@
+$out_root/
+{
+  include imguizmo/
+}
+
+export $out_root/imguizmo/$import.target

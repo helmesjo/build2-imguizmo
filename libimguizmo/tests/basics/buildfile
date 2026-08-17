@@ -1,0 +1,3 @@
+import libs = libimguizmo%lib{imguizmo}
+
+exe{driver}: {hxx cxx}{**} $libs testscript{**}
