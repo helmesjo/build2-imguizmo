@@ -2,17 +2,11 @@ libs =
 import libs = libimguizmo%lib{imguizmo}
 import gl = libopengl-meta%lib{opengl-gl}
 
-# ImApp.h includes Carbon/Cocoa. Homebrew GCC cannot parse the Apple SDK
-# block syntax. Upstream and cppget macOS bots use Apple Clang.
+# Homebrew GCC cannot parse Apple SDK block syntax in Carbon.h.
+# Upstream and cppget macOS bots use Apple Clang.
 #
-macos_gcc = ($cxx.target.class == 'macos' && $cxx.class == 'gcc')
-
-exe{example}: {hxx cxx}{**} $libs $gl
-{
-  test = false
-}
-
-./: exe{example}: include = (!$macos_gcc)
+if ($cxx.target.class != 'macos' || $cxx.class != 'gcc')
+  ./: exe{example}: {hxx cxx}{**} $libs $gl
 
 # ImApp.h is implementation, not a public header.
 #
