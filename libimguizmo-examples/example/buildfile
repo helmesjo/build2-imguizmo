@@ -25,7 +25,9 @@ elif ($cxx.target.class == 'macos')
   cxx.poptions += -DGL_SILENCE_DEPRECATION
   cxx.libs += -framework Cocoa -framework Carbon -framework IOKit
 }
-elif ($cxx.target.class != 'windows')
+else
 {
-  cxx.libs += -lX11 -ldl
+  cxx.libs += -lX11
+  if ($cxx.target.class == 'linux')
+    cxx.libs += -ldl
 }
