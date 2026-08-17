@@ -22,9 +22,12 @@ import libs = libimguizmo%lib{imguizmo}
 ```
 
 Include Dear ImGui first, then the widget headers. Both the prefixed and
-unprefixed forms work:
+unprefixed forms work. `ImZoomSlider.h` and `ImLightRig.h` use `ImVec2`
+operators, so define `IMGUI_DEFINE_MATH_OPERATORS` before including
+`imgui.h`, as the upstream example does:
 
 ```
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui.h>
 #include <imguizmo/ImGuizmo.h>
 #include <ImGuizmo.h>
