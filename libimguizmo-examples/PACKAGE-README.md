@@ -1,45 +1,16 @@
-# libimguizmo-examples - ImGuizmo
+# libimguizmo-examples - Immediate-mode 3D gizmo C++ library for Dear ImGui (examples)
 
-This is a `build2` package for the [`<UPSTREAM-NAME>`](https://<UPSTREAM-URL>)
-executable. It is a <SUMMARY-OF-FUNCTIONALITY>.
-
-Note that the `libimguizmo-examples` executable in this package provides `build2` metadata.
-
-
-## Usage
-
-To start using `libimguizmo-examples` in your project, add the following build-time
-`depends` value to your `manifest`, adjusting the version constraint as
-appropriate:
-
-```
-depends: * libimguizmo-examples ^<VERSION>
-```
-
-Then import the executable in your `buildfile`:
-
-```
-import! [metadata] <TARGET> = libimguizmo-examples%exe{<TARGET>}
-```
+This is a `build2` package containing the examples for the
+[`ImGuizmo`](https://github.com/CedricGuillemet/ImGuizmo) library.
+It builds the upstream desktop demo (`example/main.cpp` plus `ImApp.h`)
+against `libimguizmo`. The program is interactive and is not run as a test.
 
 
 ## Importable targets
 
-This package provides the following importable targets:
-
-```
-exe{<TARGET>}
-```
-
-<DESCRIPTION-OF-IMPORTABLE-TARGETS>
+This package exports no targets.
 
 
 ## Configuration variables
 
-This package provides the following configuration variables:
-
-```
-[bool] config.libimguizmo_examples.<VARIABLE> ?= false
-```
-
-<DESCRIPTION-OF-CONFIG-VARIABLES>
+This package provides no configuration variables.

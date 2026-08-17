@@ -1,10 +1,17 @@
 # Uncomment to suppress warnings coming from external libraries.
 #
-#cxx.internal.scope = current
+cxx.internal.scope = current
 
-cxx.std = latest
+# Apple SDK headers use enum arithmetic that C++26 makes ill-formed.
+#
+using cxx.guess
+cxx.std = ($cxx.target.class == 'macos' ? 20 : latest)
 
 using cxx
 
 hxx{*}: extension = h
 cxx{*}: extension = cpp
+
+# Interactive desktop demo. Do not run it from b test / bdep test.
+#
+exe{*}: test = false
