@@ -16,3 +16,4 @@ package-email: packaging@build2.org
 topics: imgui, gizmo, 3d editor, widgets
 depends: * build2 >= 0.18.0
 depends: * bpkg >= 0.18.0
+depends: libimgui ^1.92.3
