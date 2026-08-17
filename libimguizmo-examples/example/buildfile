@@ -11,7 +11,8 @@ exe{example}: {hxx cxx}{**} $libs $gl
 {
   test = false
 }
-exe{example}: include = (!$macos_gcc)
+
+./: exe{example}: include = (!$macos_gcc)
 
 # ImApp.h is implementation, not a public header.
 #
