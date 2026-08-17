@@ -5,8 +5,9 @@ import gl = libopengl-meta%lib{opengl-gl}
 # Homebrew GCC cannot parse Apple SDK block syntax in Carbon.h.
 # Upstream and cppget macOS bots use Apple Clang.
 #
-if ($cxx.target.class != 'macos' || $cxx.class != 'gcc')
-  ./: exe{example}: {hxx cxx}{**} $libs $gl
+./: exe{example}: include = ($cxx.target.class != 'macos' || $cxx.class != 'gcc')
+
+exe{example}: {hxx cxx}{**} $libs $gl
 
 # ImApp.h is implementation, not a public header.
 #
