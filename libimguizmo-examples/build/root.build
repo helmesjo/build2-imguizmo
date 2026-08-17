@@ -8,3 +8,7 @@ using cxx
 
 hxx{*}: extension = h
 cxx{*}: extension = cpp
+
+# Interactive desktop demo. Do not run it from b test / bdep test.
+#
+exe{*}: test = false
