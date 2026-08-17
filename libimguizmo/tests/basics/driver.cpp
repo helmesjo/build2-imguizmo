@@ -1,34 +1,32 @@
-#include <sstream>
-#include <stdexcept>
-
-#include <imguizmo/imguizmo.h>
+#include <imgui.h>
+#include <imguizmo/ImGuizmo.h>
+#include <imguizmo/ImSequencer.h>
+#include <imguizmo/GraphEditor.h>
+#include <imguizmo/ImZoomSlider.h>
+#include <imguizmo/ImLightRig.h>
 
 #undef NDEBUG
 #include <cassert>
 
 int main ()
 {
-  using namespace std;
-  using namespace imguizmo;
+  IMGUI_CHECKVERSION ();
+  ImGui::CreateContext ();
 
-  // Basics.
-  //
-  {
-    ostringstream o;
-    say_hello (o, "World");
-    assert (o.str () == "Hello, World!\n");
-  }
+  ImGuizmo::Enable (true);
+  ImGuizmo::Style& style (ImGuizmo::GetStyle ());
+  assert (style.TranslationLineThickness > 0.0f);
 
-  // Empty name.
-  //
-  try
-  {
-    ostringstream o;
-    say_hello (o, "");
-    assert (false);
-  }
-  catch (const invalid_argument& e)
-  {
-    assert (e.what () == string ("empty name"));
-  }
+  float matrix[16] = {
+    1, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1
+  };
+  float translation[3], rotation[3], scale[3];
+  ImGuizmo::DecomposeMatrixToComponents (matrix, translation, rotation, scale);
+  assert (scale[0] > 0.0f);
+  ImGuizmo::RecomposeMatrixFromComponents (translation, rotation, scale, matrix);
+
+  ImGui::DestroyContext ();
 }
