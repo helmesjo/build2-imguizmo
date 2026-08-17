@@ -1,0 +1,29 @@
+--- ImCurveEdit.cpp.orig	2026-08-17 20:25:40
++++ ImCurveEdit.cpp	2026-08-17 20:27:01
+@@ -124,11 +124,23 @@
+             ret = 2;
+       }
+       if (edited)
+-         draw_list->AddPolyline(offsets, 4, 0xFFFFFFFF, true, 3.0f);
++#if IMGUI_VERSION_NUM >= 19280
++         draw_list->AddPolyline(offsets, 4, 0xFFFFFFFF, 3.0f, ImDrawFlags_Closed);
++#else
++         draw_list->AddPolyline(offsets, 4, 0xFFFFFFFF, ImDrawFlags_Closed, 3.0f);
++#endif
+       else if (ret)
+-         draw_list->AddPolyline(offsets, 4, 0xFF80B0FF, true, 2.0f);
++#if IMGUI_VERSION_NUM >= 19280
++         draw_list->AddPolyline(offsets, 4, 0xFF80B0FF, 2.0f, ImDrawFlags_Closed);
++#else
++         draw_list->AddPolyline(offsets, 4, 0xFF80B0FF, ImDrawFlags_Closed, 2.0f);
++#endif
+       else
+-         draw_list->AddPolyline(offsets, 4, 0xFF0080FF, true, 2.0f);
++#if IMGUI_VERSION_NUM >= 19280
++         draw_list->AddPolyline(offsets, 4, 0xFF0080FF, 2.0f, ImDrawFlags_Closed);
++#else
++         draw_list->AddPolyline(offsets, 4, 0xFF0080FF, ImDrawFlags_Closed, 2.0f);
++#endif
+ 
+       return ret;
+    }
