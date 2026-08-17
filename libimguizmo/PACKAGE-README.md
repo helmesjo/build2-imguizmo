@@ -1,7 +1,9 @@
-# libimguizmo - ImGuizmo
+# libimguizmo - Immediate-mode 3D gizmo C++ library for Dear ImGui
 
-This is a `build2` package for the [`<UPSTREAM-NAME>`](https://<UPSTREAM-URL>)
-C++ library. It provides <SUMMARY-OF-FUNCTIONALITY>.
+This is a `build2` package for the [`ImGuizmo`](https://github.com/CedricGuillemet/ImGuizmo)
+C++ library. It provides a collection of Dear ImGui widgets for 3D
+manipulation and more, including a matrix gizmo, view cube, sequencer,
+graph editor, and vector path editor.
 
 
 ## Usage
@@ -10,13 +12,22 @@ To start using `libimguizmo` in your project, add the following `depends`
 value to your `manifest`, adjusting the version constraint as appropriate:
 
 ```
-depends: libimguizmo ^<VERSION>
+depends: libimguizmo ^1.10.0
 ```
 
 Then import the library in your `buildfile`:
 
 ```
-import libs = libimguizmo%lib{<TARGET>}
+import libs = libimguizmo%lib{imguizmo}
+```
+
+Include Dear ImGui first, then the widget headers. Both the prefixed and
+unprefixed forms work:
+
+```
+#include <imgui.h>
+#include <imguizmo/ImGuizmo.h>
+#include <ImGuizmo.h>
 ```
 
 
@@ -25,18 +36,14 @@ import libs = libimguizmo%lib{<TARGET>}
 This package provides the following importable targets:
 
 ```
-lib{<TARGET>}
+lib{imguizmo}
 ```
 
-<DESCRIPTION-OF-IMPORTABLE-TARGETS>
+The compiled library of all ImGuizmo widgets. Header-only widgets
+(`ImZoomSlider.h`, `ImLightRig.h`) are installed with the rest of the public
+headers.
 
 
 ## Configuration variables
 
-This package provides the following configuration variables:
-
-```
-[bool] config.libimguizmo.<VARIABLE> ?= false
-```
-
-<DESCRIPTION-OF-CONFIG-VARIABLES>
+This package provides no configuration variables.
