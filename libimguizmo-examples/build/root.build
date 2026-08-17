@@ -2,7 +2,10 @@
 #
 cxx.internal.scope = current
 
-cxx.std = latest
+# Upstream CMake uses C++17. latest is C++26 here and rejects enum
+# arithmetic in the Apple SDK headers pulled in by ImApp.h / Carbon.h.
+#
+cxx.std = 17
 
 using cxx
 
