@@ -5,7 +5,7 @@ import gl = libopengl-meta%lib{opengl-gl}
 # Homebrew GCC cannot parse Apple SDK block syntax in Carbon.h.
 # Upstream and cppget macOS bots use Apple Clang.
 #
-./: exe{example}: include = ($cxx.target.class != 'macos' || $cxx.class != 'gcc')
+./: exe{example}: include = ($cxx.target.class != 'macos' || $cxx.id != 'gcc')
 
 exe{example}: {hxx cxx}{**} $libs $gl
 
