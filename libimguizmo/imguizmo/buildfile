@@ -1,6 +1,6 @@
 intf_libs = # Interface dependencies.
 impl_libs = # Implementation dependencies.
-#import xxxx_libs += libhello%lib{hello}
+import intf_libs = libimgui%lib{imgui}
 
 lib{imguizmo}: libul{imguizmo}: {hxx cxx}{**} $impl_libs $intf_libs
 
@@ -9,7 +9,7 @@ def{imguizmo}: libul{imguizmo}
 
 # Build options.
 #
-cxx.poptions =+ "-I$out_root" "-I$src_root"
+cxx.poptions =+ "-I$out_base" "-I$src_base"
 
 if ($cxx.target.system == 'mingw32')
   cxx.loptions += -Wl,--export-all-symbols
@@ -18,9 +18,11 @@ if ($cxx.target.system == 'mingw32')
 #
 lib{imguizmo}:
 {
-  cxx.export.poptions = "-I$out_root" "-I$src_root"
+  cxx.export.poptions = "-I$out_base" "-I$src_base" "-I$out_root" "-I$src_root"
   cxx.export.libs = $intf_libs
 }
+
+lib{imguizmo}: cxx.pkgconfig.include = include/ include/imguizmo/
 
 # For pre-releases use the complete version to make sure they cannot
 # be used in place of another pre-release or the final version. See
