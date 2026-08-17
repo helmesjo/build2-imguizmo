@@ -16,6 +16,7 @@ package-url: https://github.com/build2-packaging/imguizmo
 package-email: packaging@build2.org
 upstream-version: 1.10
 builds: -mobile
+build-exclude: freebsd** ; X11 headers are not installed on FreeBSD CI
 depends: * build2 >= 0.18.0
 depends: * bpkg >= 0.18.0
 depends: libopengl-meta ^1.0.0
