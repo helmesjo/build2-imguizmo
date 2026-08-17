@@ -7,3 +7,7 @@
 # Compilation database.
 #
 compile_commands.json
+
+# Dear ImGui runtime layout, written next to the working directory.
+#
+imgui.ini
