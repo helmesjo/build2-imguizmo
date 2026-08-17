@@ -1,9 +1,34 @@
 libs =
-#import libs += libhello%lib{hello}
+import libs = libimguizmo%lib{imguizmo}
+import gl = libopengl-meta%lib{opengl-gl}
 
-exe{libimguizmo-examples}: {hxx cxx}{**} $libs
+exe{example}: {hxx cxx}{**} $libs $gl
+{
+  test = false
+}
+
+# ImApp.h is implementation, not a public header.
+#
+hxx{*}: install = false
 
 out_pfx = [dir_path] $out_root/example/
 src_pfx = [dir_path] $src_root/example/
 
-cxx.poptions =+ "-I$out_pfx" "-I$src_pfx"
+cxx.poptions =+ "-I$out_pfx" "-I$src_pfx" -DIMGUI_DEFINE_MATH_OPERATORS
+
+if ($cxx.target.class == 'windows')
+{
+  if ($cxx.target.system == 'mingw32')
+    cxx.libs += -limm32 -lgdi32
+  else
+    cxx.libs += imm32.lib gdi32.lib
+}
+elif ($cxx.target.class == 'macos')
+{
+  cxx.poptions += -DGL_SILENCE_DEPRECATION
+  cxx.libs += -framework Cocoa -framework Carbon -framework IOKit
+}
+elif ($cxx.target.class != 'windows')
+{
+  cxx.libs += -lX11 -ldl
+}
