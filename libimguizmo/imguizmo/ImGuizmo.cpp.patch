@@ -1,0 +1,38 @@
+--- ImGuizmo.cpp.orig	2026-08-17 20:25:40
++++ ImGuizmo.cpp	2026-08-17 20:27:01
+@@ -1344,7 +1344,11 @@
+          }
+          if (!gContext.mbUsing || usingAxis)
+          {
++#if IMGUI_VERSION_NUM >= 19280
+             drawList->AddPolyline(circlePos, circleMul* halfCircleSegmentCount + 1, colors[3 - axis], gContext.mStyle.RotationLineThickness, 0);
++#else
++            drawList->AddPolyline(circlePos, circleMul* halfCircleSegmentCount + 1, colors[3 - axis], 0, gContext.mStyle.RotationLineThickness);
++#endif
+          }
+ 
+          float radiusAxis = sqrtf((ImLengthSqr(worldToPos(gContext.mModel.v.position, gContext.mViewProjection) - circlePos[0])));
+@@ -1374,7 +1378,11 @@
+             circlePos[i] = worldToPos(pos + gContext.mModel.v.position, gContext.mViewProjection);
+          }
+          drawList->AddConvexPolyFilled(circlePos, halfCircleSegmentCount + 1, GetColorU32(ROTATION_USING_FILL));
++#if IMGUI_VERSION_NUM >= 19280
+          drawList->AddPolyline(circlePos, halfCircleSegmentCount + 1, GetColorU32(ROTATION_USING_BORDER), gContext.mStyle.RotationLineThickness, ImDrawFlags_Closed);
++#else
++         drawList->AddPolyline(circlePos, halfCircleSegmentCount + 1, GetColorU32(ROTATION_USING_BORDER), ImDrawFlags_Closed, gContext.mStyle.RotationLineThickness);
++#endif
+ 
+          ImVec2 destinationPosOnScreen = circlePos[1];
+          char tmps[512];
+@@ -1637,7 +1645,11 @@
+                   vec_t cornerWorldPos = (dirPlaneX * quadUV[j * 2] + dirPlaneY * quadUV[j * 2 + 1]) * gContext.mScreenFactor;
+                   screenQuadPts[j] = worldToPos(cornerWorldPos, gContext.mMVP);
+                }
++#if IMGUI_VERSION_NUM >= 19280
+                drawList->AddPolyline(screenQuadPts, 4, GetColorU32(DIRECTION_X + i), 1.0f, ImDrawFlags_Closed);
++#else
++               drawList->AddPolyline(screenQuadPts, 4, GetColorU32(DIRECTION_X + i), ImDrawFlags_Closed, 1.0f);
++#endif
+                drawList->AddConvexPolyFilled(screenQuadPts, 4, colors[i + 4]);
+             }
+          }

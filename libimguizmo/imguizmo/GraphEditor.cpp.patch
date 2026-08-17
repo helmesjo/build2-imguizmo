@@ -1,0 +1,15 @@
+--- GraphEditor.cpp.orig	2026-08-17 20:25:40
++++ GraphEditor.cpp	2026-08-17 20:27:01
+@@ -276,7 +276,11 @@
+             float highLightFactor = factor * (highlightCons ? 2.0f : 1.f);
+             for (int pass = 0; pass < 2; pass++)
+             {
+-                drawList->AddPolyline(pts.data(), ptCount, pass ? col : 0xFF000000, false, (pass ? options.mLineThickness : (options.mLineThickness * 1.5f)) * highLightFactor);
++#if IMGUI_VERSION_NUM >= 19280
++                drawList->AddPolyline(pts.data(), ptCount, pass ? col : 0xFF000000, (pass ? options.mLineThickness : (options.mLineThickness * 1.5f)) * highLightFactor, 0);
++#else
++                drawList->AddPolyline(pts.data(), ptCount, pass ? col : 0xFF000000, 0, (pass ? options.mLineThickness : (options.mLineThickness * 1.5f)) * highLightFactor);
++#endif
+             }
+         }
+     }
