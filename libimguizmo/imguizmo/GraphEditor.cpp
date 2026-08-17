@@ -631,12 +631,21 @@ static bool DrawNode(ImDrawList* drawList,
     const bool currentSelectedNode = node.mSelected;
     const ImU32 node_bg_color = nodeHovered ? nodeTemplate.mBackgroundColorOver : nodeTemplate.mBackgroundColor;
 
+#if IMGUI_VERSION_NUM >= 19280
+    drawList->AddRect(nodeRectangleMin,
+                      nodeRectangleMax,
+                      currentSelectedNode ? options.mSelectedNodeBorderColor : options.mNodeBorderColor,
+                      options.mRounding,
+                      currentSelectedNode ? options.mBorderSelectionThickness : options.mBorderThickness,
+                      ImDrawFlags_RoundCornersAll);
+#else
     drawList->AddRect(nodeRectangleMin,
                       nodeRectangleMax,
                       currentSelectedNode ? options.mSelectedNodeBorderColor : options.mNodeBorderColor,
                       options.mRounding,
                       ImDrawFlags_RoundCornersAll,
                       currentSelectedNode ? options.mBorderSelectionThickness : options.mBorderThickness);
+#endif
 
     ImVec2 imgPos = nodeRectangleMin + ImVec2(14, 25);
     ImVec2 imgSize = nodeRectangleMax + ImVec2(-5, -5) - imgPos;
@@ -882,7 +891,11 @@ void Show(Delegate& delegate, const Options& options, ViewState& viewState, bool
         // Focus rectangle
         if (ImGui::IsWindowFocused())
         {
+#if IMGUI_VERSION_NUM >= 19280
+           drawList->AddRect(regionRect.Min, regionRect.Max, options.mFrameFocus, 1.f, 2.f);
+#else
            drawList->AddRect(regionRect.Min, regionRect.Max, options.mFrameFocus, 1.f, 0, 2.f);
+#endif
         }
 
         drawList->ChannelsSetCurrent(1); // Background
