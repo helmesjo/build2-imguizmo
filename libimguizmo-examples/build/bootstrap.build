@@ -1,0 +1,6 @@
+project = libimguizmo-examples
+
+using version
+using config
+using install
+using dist

@@ -1,0 +1,9 @@
+libs =
+#import libs += libhello%lib{hello}
+
+exe{libimguizmo-examples}: {hxx cxx}{**} $libs
+
+out_pfx = [dir_path] $out_root/example/
+src_pfx = [dir_path] $src_root/example/
+
+cxx.poptions =+ "-I$out_pfx" "-I$src_pfx"
