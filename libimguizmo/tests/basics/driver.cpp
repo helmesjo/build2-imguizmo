@@ -1,3 +1,4 @@
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui.h>
 #include <imguizmo/ImGuizmo.h>
 #include <imguizmo/ImSequencer.h>
