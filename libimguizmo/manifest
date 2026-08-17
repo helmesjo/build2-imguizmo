@@ -17,3 +17,4 @@ upstream-version: 1.10
 topics: imgui, gizmo, 3d editor, widgets
 depends: * build2 >= 0.18.0
 depends: * bpkg >= 0.18.0
+depends: libimgui ^1.92.3
