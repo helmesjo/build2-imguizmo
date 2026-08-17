@@ -17,3 +17,6 @@ package-email: packaging@build2.org
 depends: * build2 >= 0.18.0
 depends: * bpkg >= 0.18.0
 depends: libopengl-meta ^1.0.0
+
+build-exclude: freebsd** ; Requires X11 dev headers.
+build-exclude: **fedora** ; Requires X11 dev headers.
