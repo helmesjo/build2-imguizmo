@@ -22,7 +22,14 @@ if ($cxx.class == 'gcc')
 if ($cxx.target.class == 'windows')
 {
   if ($cxx.target.system == 'mingw32')
+  {
     cxx.libs += -limm32 -lgdi32
+
+    # MinGW GCC does not understand MSVC's #pragma comment(lib, ...) in
+    # ImApp.h. opengl32 is already linked via libopengl-meta above.
+    #
+    cxx.coptions += -Wno-unknown-pragmas
+  }
   else
     cxx.libs += imm32.lib gdi32.lib
 }
