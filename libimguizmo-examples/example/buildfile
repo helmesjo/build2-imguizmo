@@ -13,6 +13,12 @@ src_pfx = [dir_path] $src_root/example/
 
 cxx.poptions =+ "-I$out_pfx" "-I$src_pfx"
 
+# ImApp.h's Cocoa backend has a dead ImApp_windowShouldClose stub, superseded
+# by ImApp_windowShouldClose_impl (the one actually registered).
+#
+if ($cxx.class == 'gcc')
+  cxx.coptions += -Wno-unused-function
+
 if ($cxx.target.class == 'windows')
 {
   if ($cxx.target.system == 'mingw32')

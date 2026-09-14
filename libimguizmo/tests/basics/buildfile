@@ -1,3 +1,9 @@
 import libs = libimguizmo%lib{imguizmo}
 
 exe{driver}: {hxx cxx}{**} $libs testscript{**}
+
+# ImZoomSlider.h has a dead local (canvasPos) in upstream; see
+# libimguizmo/imguizmo/buildfile for the same rationale.
+#
+if ($cxx.class == 'gcc')
+  cxx.coptions += -Wno-unused-variable

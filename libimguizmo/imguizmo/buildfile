@@ -11,6 +11,17 @@ def{imguizmo}: libul{imguizmo}
 #
 cxx.poptions =+ "-I$out_base" "-I$src_base"
 
+# Silence harmless warnings from dead code in the vendored upstream sources
+# (unused math operator overloads, locals only referenced from commented-out
+# debug blocks, and the size_t-typedef-as-signed-sentinel idiom used for
+# "no selection" indices).
+#
+if ($cxx.class == 'gcc')
+  cxx.coptions += -Wno-unused-function         \
+                  -Wno-unused-variable         \
+                  -Wno-unused-but-set-variable \
+                  -Wno-sign-compare
+
 if ($cxx.target.system == 'mingw32')
   cxx.loptions += -Wl,--export-all-symbols
 
