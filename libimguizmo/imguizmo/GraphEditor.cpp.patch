@@ -1,0 +1,82 @@
+--- GraphEditor.cpp.orig	2026-08-17 20:25:40
++++ GraphEditor.cpp	2026-08-18 00:26:17
+@@ -276,7 +276,11 @@
+             float highLightFactor = factor * (highlightCons ? 2.0f : 1.f);
+             for (int pass = 0; pass < 2; pass++)
+             {
+-                drawList->AddPolyline(pts.data(), ptCount, pass ? col : 0xFF000000, false, (pass ? options.mLineThickness : (options.mLineThickness * 1.5f)) * highLightFactor);
++#if IMGUI_VERSION_NUM >= 19280
++                drawList->AddPolyline(pts.data(), ptCount, pass ? col : 0xFF000000, (pass ? options.mLineThickness : (options.mLineThickness * 1.5f)) * highLightFactor, 0);
++#else
++                drawList->AddPolyline(pts.data(), ptCount, pass ? col : 0xFF000000, 0, (pass ? options.mLineThickness : (options.mLineThickness * 1.5f)) * highLightFactor);
++#endif
+             }
+         }
+     }
+@@ -627,12 +631,21 @@
+     const bool currentSelectedNode = node.mSelected;
+     const ImU32 node_bg_color = nodeHovered ? nodeTemplate.mBackgroundColorOver : nodeTemplate.mBackgroundColor;
+ 
++#if IMGUI_VERSION_NUM >= 19280
+     drawList->AddRect(nodeRectangleMin,
+                       nodeRectangleMax,
+                       currentSelectedNode ? options.mSelectedNodeBorderColor : options.mNodeBorderColor,
+                       options.mRounding,
+-                      ImDrawFlags_RoundCornersAll,
++                      currentSelectedNode ? options.mBorderSelectionThickness : options.mBorderThickness,
++                      ImDrawFlags_None);
++#else
++    drawList->AddRect(nodeRectangleMin,
++                      nodeRectangleMax,
++                      currentSelectedNode ? options.mSelectedNodeBorderColor : options.mNodeBorderColor,
++                      options.mRounding,
++                      ImDrawFlags_None,
+                       currentSelectedNode ? options.mBorderSelectionThickness : options.mBorderThickness);
++#endif
+ 
+     ImVec2 imgPos = nodeRectangleMin + ImVec2(14, 25);
+     ImVec2 imgSize = nodeRectangleMax + ImVec2(-5, -5) - imgPos;
+@@ -757,7 +770,7 @@
+     const float ratioX = viewSize.x / nodesSize.x;
+     const float factor = ImMin(ImMin(ratioY, ratioX), 1.f);
+ 
+-    drawList->AddRectFilled(minScreen, maxScreen, IM_COL32(30, 30, 30, 200), 3, ImDrawFlags_RoundCornersAll);
++    drawList->AddRectFilled(minScreen, maxScreen, IM_COL32(30, 30, 30, 200), 3);
+ 
+     for (NodeIndex nodeIndex = 0; nodeIndex < nodeCount; nodeIndex++)
+     {
+@@ -773,18 +786,18 @@
+         rect.Max *= factor;
+         rect.Max += middleScreen;
+ 
+-        drawList->AddRectFilled(rect.Min, rect.Max, nodeTemplate.mBackgroundColor, 1, ImDrawFlags_RoundCornersAll);
++        drawList->AddRectFilled(rect.Min, rect.Max, nodeTemplate.mBackgroundColor, 1);
+         if (node.mSelected)
+         {
+-            drawList->AddRect(rect.Min, rect.Max, options.mSelectedNodeBorderColor, 1, ImDrawFlags_RoundCornersAll);
++            drawList->AddRect(rect.Min, rect.Max, options.mSelectedNodeBorderColor, 1);
+         }
+     }
+ 
+     // add view
+     ImVec2 viewMinScreen = (viewMin - middleWorld) * factor + middleScreen;
+     ImVec2 viewMaxScreen = (viewMax - middleWorld) * factor + middleScreen;
+-    drawList->AddRectFilled(viewMinScreen, viewMaxScreen, IM_COL32(255, 255, 255, 32), 1, ImDrawFlags_RoundCornersAll);
+-    drawList->AddRect(viewMinScreen, viewMaxScreen, IM_COL32(255, 255, 255, 128), 1, ImDrawFlags_RoundCornersAll);
++    drawList->AddRectFilled(viewMinScreen, viewMaxScreen, IM_COL32(255, 255, 255, 32), 1);
++    drawList->AddRect(viewMinScreen, viewMaxScreen, IM_COL32(255, 255, 255, 128), 1);
+     
+     ImGuiIO& io = ImGui::GetIO();
+     const bool mouseInMinimap = ImRect(minScreen, maxScreen).Contains(io.MousePos);
+@@ -878,7 +891,11 @@
+         // Focus rectangle
+         if (ImGui::IsWindowFocused())
+         {
++#if IMGUI_VERSION_NUM >= 19280
++           drawList->AddRect(regionRect.Min, regionRect.Max, options.mFrameFocus, 1.f, 2.f);
++#else
+            drawList->AddRect(regionRect.Min, regionRect.Max, options.mFrameFocus, 1.f, 0, 2.f);
++#endif
+         }
+ 
+         drawList->ChannelsSetCurrent(1); // Background
